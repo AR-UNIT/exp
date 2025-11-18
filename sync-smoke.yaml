@@ -1,0 +1,25 @@
+# sync-smoke.yaml
+# profile: explorer          # optional; matches a profile in ~/.exp/config.(json|yaml)
+name: sync-smoke
+
+remote: explorer           # SSH target if no profile/default supplies it
+log_dir: /projects/SaltSystemsLab/arunit/logs
+script: /projects/SaltSystemsLab/arunit/gpu_ann/scripts/query_bigann.sbatch
+
+artifact_remote: /projects/SaltSystemsLab/arunit/logs
+artifact_dest: ~/experiments/sync-smoke
+# artifact_pattern: ".*\\.out$"
+# artifact_pattern: "*"
+artifact_pattern: ".*/sync-smoke-.*\\.out$"
+
+
+artifact_since_start: true   # set false to pull older logs too
+poll_interval: 5s           # any Go duration literal works (“45s”, “2m”)
+
+args:
+  - --k
+  - "100"
+  - --beam-width
+  - "8"
+  - --cut
+  - "10"

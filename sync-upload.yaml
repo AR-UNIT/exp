@@ -1,0 +1,37 @@
+# sync-upload.yaml
+# Use this when you want exp to copy a local sbatch script up before running it.
+
+name: sync-upload
+remote: explorer
+log_dir: /projects/SaltSystemsLab/arunit/logs
+
+# Remote destination for the sbatch script.
+script: /projects/SaltSystemsLab/arunit/gpu_ann/scripts/query_upload.sbatch
+# Local source that should be scp’d to the remote path prior to submission.
+script_local: ./scripts/q.sbatch
+build_script: ./scripts/build_query.sh
+
+# artifact_remote: /projects/SaltSystemsLab/arunit/logs
+artifact_sources:
+  - path: /projects/SaltSystemsLab/arunit/logs
+    artifact_patterns:
+      - ".*/sync-upload-.*\\.out$"
+      - ".*/bigann-.*\\.txt"
+  - path: /home/baidya.ar   # another remote tree
+    artifact_patterns:
+      - ".*/query_bigann_.*\\.err$"
+      - ".*/bigann-.*\\.txt"
+
+
+artifact_dest: ~/experiments/sync-upload
+
+artifact_since_start: true
+poll_interval: 5s
+
+args:
+  - --k
+  - "100"
+  - --beam-width
+  - "8"
+  - --cut
+  - "10"

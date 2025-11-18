@@ -1,0 +1,24 @@
+# sync-remote.yaml
+# Use this when the sbatch script already lives on Explorer.
+
+name: sync-remote
+remote: explorer
+log_dir: /projects/SaltSystemsLab/arunit/logs
+
+# This script is assumed to exist on the remote filesystem already.
+script: /projects/SaltSystemsLab/arunit/gpu_ann/scripts/query_bigann.sbatch
+build_script: ./scripts/build_query.sh
+
+artifact_remote: /projects/SaltSystemsLab/arunit/logs
+artifact_dest: ~/experiments/sync-remote
+artifact_pattern: ".*/sync-remote-.*\\.out$"
+artifact_since_start: true
+poll_interval: 5s
+
+args:
+  - --k
+  - "100"
+  - --beam-width
+  - "8"
+  - --cut
+  - "10"
